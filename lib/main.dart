@@ -7,7 +7,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,15 +22,15 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({
-    super.key,
-  });
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _selectedDrawerIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,28 +57,74 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: Colors.deepOrange,
-              ))
+            onPressed: () {},
+            icon: const Icon(
+              Icons.search,
+              color: Colors.deepOrange,
+            ),
+          )
         ],
       ),
       drawer: Padding(
         padding: const EdgeInsets.only(top: 250.0),
-        child: Drawer(
-          width: 65,
-          elevation: 5,
-          backgroundColor: Colors.deepOrange,
-          child: ListView(
-            children: const [
-              ListDrawer(title: '• Hot Teas'),
-              ListDrawer(title: '• Ice Teas'),
-              ListDrawer(title: '• Hot Coffees'),
-              ListDrawer(title: '• Drinks'),
-              ListDrawer(title: '• Bakery'),
-              ListDrawer(title: '• Bakery'),
-            ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30.0),
+            bottomRight: Radius.circular(30.0),
+          ),
+          child: Drawer(
+            width: 65,
+            elevation: 5,
+            backgroundColor: Colors.deepOrange,
+            child: ListView(
+              children: [
+                ListDrawer(
+                  title: '• Hot Teas',
+                  isSelected: _selectedDrawerIndex == 0,
+                  onTap: () {
+                    setState(() {
+                      _selectedDrawerIndex = 0;
+                    });
+                  },
+                ),
+                ListDrawer(
+                  title: '• Ice Teas',
+                  isSelected: _selectedDrawerIndex == 1,
+                  onTap: () {
+                    setState(() {
+                      _selectedDrawerIndex = 1;
+                    });
+                  },
+                ),
+                ListDrawer(
+                  title: '• Hot Coffees',
+                  isSelected: _selectedDrawerIndex == 2,
+                  onTap: () {
+                    setState(() {
+                      _selectedDrawerIndex = 2;
+                    });
+                  },
+                ),
+                ListDrawer(
+                  title: '• Drinks',
+                  isSelected: _selectedDrawerIndex == 3,
+                  onTap: () {
+                    setState(() {
+                      _selectedDrawerIndex = 3;
+                    });
+                  },
+                ),
+                ListDrawer(
+                  title: '• Bakery',
+                  isSelected: _selectedDrawerIndex == 4,
+                  onTap: () {
+                    setState(() {
+                      _selectedDrawerIndex = 4;
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -91,45 +136,59 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'Welcome,',
               style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'exo',
-                  fontSize: 16,
-                  color: Colors.deepOrange),
+                fontWeight: FontWeight.w400,
+                fontFamily: 'exo',
+                fontSize: 16,
+                color: Colors.deepOrange,
+              ),
             ),
             Text(
               "Muhammad Umar",
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'exo',
-                  fontSize: 20,
-                  color: Colors.black),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'exo',
+                fontSize: 20,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
 class ListDrawer extends StatelessWidget {
-  const ListDrawer({super.key, required this.title});
+  const ListDrawer({
+    super.key,
+    required this.title,
+    required this.isSelected,
+    required this.onTap,
+  });
+
   final String title;
+  final bool isSelected;
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
       child: ListTile(
+        selected: isSelected,
+        // selectedTileColor: Colors.white24,
         title: RotatedBox(
           quarterTurns: 3,
           child: Text(
             title,
-            style: const TextStyle(
-                fontFamily: 'exo',
-                fontWeight: FontWeight.w900,
-                color: Colors.white54),
+            style: TextStyle(
+              fontFamily: 'exo',
+              fontWeight: FontWeight.w900,
+              color: isSelected ? Colors.white : Colors.white54,
+            ),
           ),
         ),
+        onTap: onTap,
       ),
     );
   }
