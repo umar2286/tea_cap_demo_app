@@ -1,3 +1,8 @@
+import 'package:creditcard_mockups/Category/bakery.dart';
+import 'package:creditcard_mockups/Category/drinks.dart';
+import 'package:creditcard_mockups/Category/hot_coffees.dart';
+import 'package:creditcard_mockups/Category/hot_teas.dart';
+import 'package:creditcard_mockups/Category/ice_teas.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,8 +33,51 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _selectedDrawerIndex = 0;
+
+  late TabController _tabController;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: tabs.length, vsync: this);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: _animationController, curve: Curves.fastEaseInToSlowEaseOut))
+      ..addListener(() {
+        setState(() {});
+      });
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  final List<Widget> tabContents = [
+    const HotTeas(),
+    const IceTeas(),
+    const HotCoffees(),
+    const Drinks(),
+    const Bakery(),
+  ];
+
+  static const List<Tab> tabs = [
+    Tab(text: '• Hot Teas'),
+    Tab(text: '• Ice Teas'),
+    Tab(text: '• Hot Coffees'),
+    Tab(text: '• Drinks'),
+    Tab(text: '• Bakery'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -67,73 +115,41 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       drawer: Padding(
         padding: const EdgeInsets.only(top: 250.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30.0),
-            bottomRight: Radius.circular(30.0),
+        child: Drawer(
+          width: 65,
+          elevation: 5,
+          backgroundColor: Colors.deepOrange,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(60.0),
+            ),
           ),
-          child: Drawer(
-            width: 65,
-            elevation: 5,
-            backgroundColor: Colors.deepOrange,
-            child: ListView(
-              children: [
-                ListDrawer(
-                  title: '• Hot Teas',
-                  isSelected: _selectedDrawerIndex == 0,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Column(
+              children: tabs.asMap().entries.map((entry) {
+                return ListDrawer(
+                  title: entry.value.text!,
+                  isSelected: _selectedDrawerIndex == entry.key,
                   onTap: () {
                     setState(() {
-                      _selectedDrawerIndex = 0;
+                      _selectedDrawerIndex = entry.key;
+                      _tabController.animateTo(entry.key);
+                      Navigator.pop(context);
                     });
                   },
-                ),
-                ListDrawer(
-                  title: '• Ice Teas',
-                  isSelected: _selectedDrawerIndex == 1,
-                  onTap: () {
-                    setState(() {
-                      _selectedDrawerIndex = 1;
-                    });
-                  },
-                ),
-                ListDrawer(
-                  title: '• Hot Coffees',
-                  isSelected: _selectedDrawerIndex == 2,
-                  onTap: () {
-                    setState(() {
-                      _selectedDrawerIndex = 2;
-                    });
-                  },
-                ),
-                ListDrawer(
-                  title: '• Drinks',
-                  isSelected: _selectedDrawerIndex == 3,
-                  onTap: () {
-                    setState(() {
-                      _selectedDrawerIndex = 3;
-                    });
-                  },
-                ),
-                ListDrawer(
-                  title: '• Bakery',
-                  isSelected: _selectedDrawerIndex == 4,
-                  onTap: () {
-                    setState(() {
-                      _selectedDrawerIndex = 4;
-                    });
-                  },
-                ),
-              ],
+                );
+              }).toList(),
             ),
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.only(top: 30.0, left: 20),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 30.0, left: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Welcome,',
               style: TextStyle(
                 fontWeight: FontWeight.w400,
@@ -142,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.deepOrange,
               ),
             ),
-            Text(
+            const Text(
               "Muhammad Umar",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -150,6 +166,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 fontSize: 20,
                 color: Colors.black,
               ),
+            ),
+            SizedBox(
+              width: 300,
+              height: 400,
+              child: TabBarView(
+                  controller: _tabController,
+                  children: tabContents.map((Widget tabCont) {
+                    return tabCont;
+                  }).toList()),
             ),
           ],
         ),
@@ -176,7 +201,6 @@ class ListDrawer extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 18),
       child: ListTile(
         selected: isSelected,
-        // selectedTileColor: Colors.white24,
         title: RotatedBox(
           quarterTurns: 3,
           child: Text(
