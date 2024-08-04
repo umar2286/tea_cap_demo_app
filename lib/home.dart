@@ -1,30 +1,10 @@
 import 'package:creditcard_mockups/Category/bakery.dart';
+import 'package:creditcard_mockups/Category/container_class.dart';
 import 'package:creditcard_mockups/Category/drinks.dart';
 import 'package:creditcard_mockups/Category/hot_coffees.dart';
 import 'package:creditcard_mockups/Category/hot_teas.dart';
 import 'package:creditcard_mockups/Category/ice_teas.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.amber[50],
-        appBarTheme: AppBarTheme(color: Colors.amber[50]),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -84,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        shadowColor: Colors.deepOrange,
+        shadowColor: const Color.fromARGB(236, 200, 60, 17),
         leading: Builder(
           builder: (context) => IconButton(
             onPressed: () {
@@ -92,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             },
             icon: const Icon(
               Icons.menu,
-              color: Colors.deepOrange,
+              color: Color.fromARGB(236, 200, 60, 17),
             ),
           ),
         ),
@@ -108,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             onPressed: () {},
             icon: const Icon(
               Icons.search,
-              color: Colors.deepOrange,
+              color: Color.fromARGB(236, 200, 60, 17),
             ),
           )
         ],
@@ -118,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         child: Drawer(
           width: 65,
           elevation: 5,
-          backgroundColor: Colors.deepOrange,
+          backgroundColor: const Color.fromARGB(236, 200, 60, 17),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(60.0),
@@ -126,20 +106,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: 10.0),
-            child: Column(
-              children: tabs.asMap().entries.map((entry) {
-                return ListDrawer(
-                  title: entry.value.text!,
-                  isSelected: _selectedDrawerIndex == entry.key,
-                  onTap: () {
-                    setState(() {
-                      _selectedDrawerIndex = entry.key;
-                      _tabController.animateTo(entry.key);
-                      Navigator.pop(context);
-                    });
-                  },
-                );
-              }).toList(),
+            child: SingleChildScrollView(
+              child: Column(
+                children: tabs.asMap().entries.map((entry) {
+                  return ListDrawer(
+                    title: entry.value.text!,
+                    isSelected: _selectedDrawerIndex == entry.key,
+                    onTap: () {
+                      setState(() {
+                        _selectedDrawerIndex = entry.key;
+                        _tabController.animateTo(entry.key);
+                        Navigator.pop(context);
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
@@ -155,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 fontWeight: FontWeight.w400,
                 fontFamily: 'exo',
                 fontSize: 16,
-                color: Colors.deepOrange,
+                color: Color.fromARGB(236, 200, 60, 17),
               ),
             ),
             const Text(

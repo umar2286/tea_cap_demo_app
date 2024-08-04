@@ -11,7 +11,7 @@ class Drinks extends StatelessWidget {
           width: 200,
           height: 200,
           color: Colors.green,
-          child: Text(
+          child: const Text(
             'Drinks',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),

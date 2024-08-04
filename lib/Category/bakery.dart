@@ -11,7 +11,7 @@ class Bakery extends StatelessWidget {
           width: 200,
           height: 200,
           color: Colors.purple,
-          child: Text(
+          child: const Text(
             'Bakery',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),

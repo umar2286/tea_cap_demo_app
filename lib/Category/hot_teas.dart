@@ -1,3 +1,4 @@
+import 'package:creditcard_mockups/Category/container_class.dart';
 import 'package:flutter/material.dart';
 
 class HotTeas extends StatelessWidget {
@@ -5,17 +6,17 @@ class HotTeas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        Container(
-          width: 200,
-          height: 200,
-          color: Colors.amber,
-          child: Text(
-            'Hot Teas',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-          ),
+        SizedBox(
+          height: 50,
         ),
+        ContainerClass(
+            image: AssetImage('images/cake3.png'),
+            title: 'Espresso',
+            detail: '2% milk wet',
+            price: 280,
+            star: 4.3),
       ],
     );
   }

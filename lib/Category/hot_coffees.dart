@@ -11,7 +11,7 @@ class HotCoffees extends StatelessWidget {
           width: 200,
           height: 200,
           color: Colors.blue,
-          child: Text(
+          child: const Text(
             'Hot Coffees',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),

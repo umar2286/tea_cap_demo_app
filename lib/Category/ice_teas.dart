@@ -11,7 +11,7 @@ class IceTeas extends StatelessWidget {
           width: 200,
           height: 200,
           color: Colors.red,
-          child: Text(
+          child: const Text(
             'Ice Teas',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),
